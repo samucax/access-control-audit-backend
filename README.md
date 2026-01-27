@@ -417,6 +417,7 @@ This project demonstrates the following skills and best practices:
 ## Credits
 
 **Created by Owais Zakir**
+**Thanks to my mentor Sir Zubair Shaikh**
 
 This project is open source and available for educational purposes. Feel free to use it as a reference or starting point for your own projects.
 
