@@ -30,16 +30,16 @@ The project is intentionally **generic and infrastructure-level** - no business-
 
 ## Tech Stack
 
-| Technology | Purpose |
-|------------|---------|
-| **Node.js** | Runtime environment |
-| **TypeScript** | Type-safe JavaScript |
-| **Express** | Web framework |
-| **MongoDB** | Database (NoSQL) |
-| **Mongoose** | MongoDB ODM |
-| **Zod** | Schema validation |
-| **JWT** | Token-based authentication |
-| **bcryptjs** | Password hashing |
+| Technology     | Purpose                    |
+| -------------- | -------------------------- |
+| **Node.js**    | Runtime environment        |
+| **TypeScript** | Type-safe JavaScript       |
+| **Express**    | Web framework              |
+| **MongoDB**    | Database (NoSQL)           |
+| **Mongoose**   | MongoDB ODM                |
+| **Zod**        | Schema validation          |
+| **JWT**        | Token-based authentication |
+| **bcryptjs**   | Password hashing           |
 
 ## Architecture Overview
 
@@ -148,6 +148,7 @@ backend/
 ### JWT Token Structure
 
 **Access Token** (short-lived, 15 minutes):
+
 ```json
 {
   "userId": "64a1b2c3d4e5f6g7h8i9j0k1",
@@ -159,6 +160,7 @@ backend/
 ```
 
 **Refresh Token** (long-lived, 7 days):
+
 - Stored in database for revocation support
 - Implements token rotation for security
 
@@ -171,6 +173,7 @@ User → Role → Permissions
 ```
 
 **Permission Format**: `resource:action`
+
 - Examples: `users:create`, `roles:manage`, `audit-logs:read`
 
 **Special Permission**: `manage` grants all actions on a resource.
@@ -194,17 +197,17 @@ await policyService.getUserPermissions(userId);
 
 Every significant action is logged with:
 
-| Field | Description |
-|-------|-------------|
-| `actorId` | User who performed the action |
-| `actorEmail` | Email for quick identification |
-| `action` | Action type (CREATE, UPDATE, DELETE, LOGIN, etc.) |
-| `resource` | Resource affected (users, roles, etc.) |
-| `resourceId` | Specific resource ID |
-| `metadata` | Additional context (changes, previous values) |
-| `ipAddress` | Client IP address |
-| `userAgent` | Client user agent |
-| `timestamp` | When the action occurred |
+| Field        | Description                                       |
+| ------------ | ------------------------------------------------- |
+| `actorId`    | User who performed the action                     |
+| `actorEmail` | Email for quick identification                    |
+| `action`     | Action type (CREATE, UPDATE, DELETE, LOGIN, etc.) |
+| `resource`   | Resource affected (users, roles, etc.)            |
+| `resourceId` | Specific resource ID                              |
+| `metadata`   | Additional context (changes, previous values)     |
+| `ipAddress`  | Client IP address                                 |
+| `userAgent`  | Client user agent                                 |
+| `timestamp`  | When the action occurred                          |
 
 ### Audit Log Actions
 
@@ -233,28 +236,34 @@ The system includes MongoDB aggregation pipelines for:
 ### Installation
 
 1. **Clone the repository**
+
    ```bash
-   git clone <repository-url>
-   cd backend
+   git clone https://github.com/OwaisZakir/access-control-audit-backend.git
+
+   cd access-control-audit-backend
    ```
 
 2. **Install dependencies**
+
    ```bash
    npm install
    ```
 
 3. **Configure environment**
+
    ```bash
    cp .env.example .env
    # Edit .env with your configuration
    ```
 
 4. **Seed the database**
+
    ```bash
    npm run seed
    ```
 
 5. **Start the server**
+
    ```bash
    # Development
    npm run dev
@@ -290,83 +299,93 @@ CORS_ORIGIN=http://localhost:3000
 ## Running the Project
 
 ### Development Mode
+
 ```bash
 npm run dev
 ```
 
 ### Production Mode
+
 ```bash
 npm run build
 npm start
 ```
 
 ### Database Seeding
+
 ```bash
 npx ts-node src/scripts/seed.ts
 ```
 
 ### Default Users
 
-| Role | Email | Password |
-|------|-------|----------|
-| Admin | admin@example.com | Admin@123 |
+| Role    | Email               | Password  |
+| ------- | ------------------- | --------- |
+| Admin   | admin@example.com   | Admin@123 |
 | Manager | manager@example.com | Admin@123 |
-| Viewer | viewer@example.com | Admin@123 |
+| Viewer  | viewer@example.com  | Admin@123 |
 
 ## API Endpoints
 
 ### Authentication
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/v1/auth/login` | Authenticate user |
-| POST | `/api/v1/auth/refresh` | Refresh access token |
-| POST | `/api/v1/auth/logout` | Logout (revoke tokens) |
-| GET | `/api/v1/auth/me` | Get current user |
+
+| Method | Endpoint               | Description            |
+| ------ | ---------------------- | ---------------------- |
+| POST   | `/api/v1/auth/login`   | Authenticate user      |
+| POST   | `/api/v1/auth/refresh` | Refresh access token   |
+| POST   | `/api/v1/auth/logout`  | Logout (revoke tokens) |
+| GET    | `/api/v1/auth/me`      | Get current user       |
 
 ### Users
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/v1/users` | List all users |
-| GET | `/api/v1/users/:id` | Get user by ID |
-| POST | `/api/v1/users` | Create user |
-| PATCH | `/api/v1/users/:id` | Update user |
-| DELETE | `/api/v1/users/:id` | Delete user |
+
+| Method | Endpoint            | Description    |
+| ------ | ------------------- | -------------- |
+| GET    | `/api/v1/users`     | List all users |
+| GET    | `/api/v1/users/:id` | Get user by ID |
+| POST   | `/api/v1/users`     | Create user    |
+| PATCH  | `/api/v1/users/:id` | Update user    |
+| DELETE | `/api/v1/users/:id` | Delete user    |
 
 ### Roles
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/v1/roles` | List all roles |
-| GET | `/api/v1/roles/:id` | Get role by ID |
-| POST | `/api/v1/roles` | Create role |
-| PATCH | `/api/v1/roles/:id` | Update role |
-| DELETE | `/api/v1/roles/:id` | Delete role |
+
+| Method | Endpoint            | Description    |
+| ------ | ------------------- | -------------- |
+| GET    | `/api/v1/roles`     | List all roles |
+| GET    | `/api/v1/roles/:id` | Get role by ID |
+| POST   | `/api/v1/roles`     | Create role    |
+| PATCH  | `/api/v1/roles/:id` | Update role    |
+| DELETE | `/api/v1/roles/:id` | Delete role    |
 
 ### Permissions
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/v1/permissions` | List all permissions |
-| GET | `/api/v1/permissions/:id` | Get permission by ID |
-| POST | `/api/v1/permissions` | Create permission |
-| DELETE | `/api/v1/permissions/:id` | Delete permission |
+
+| Method | Endpoint                  | Description          |
+| ------ | ------------------------- | -------------------- |
+| GET    | `/api/v1/permissions`     | List all permissions |
+| GET    | `/api/v1/permissions/:id` | Get permission by ID |
+| POST   | `/api/v1/permissions`     | Create permission    |
+| DELETE | `/api/v1/permissions/:id` | Delete permission    |
 
 ### Audit Logs
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/v1/audit-logs` | List audit logs |
-| GET | `/api/v1/audit-logs/stats` | Get statistics |
-| GET | `/api/v1/audit-logs/trail/:resource/:resourceId` | Get resource trail |
+
+| Method | Endpoint                                         | Description        |
+| ------ | ------------------------------------------------ | ------------------ |
+| GET    | `/api/v1/audit-logs`                             | List audit logs    |
+| GET    | `/api/v1/audit-logs/stats`                       | Get statistics     |
+| GET    | `/api/v1/audit-logs/trail/:resource/:resourceId` | Get resource trail |
 
 ## Interviewer Notes
 
 This project demonstrates the following skills and best practices:
 
 ### Architecture & Design Patterns
+
 - ✅ **Clean Architecture** - Clear separation between domain, application, and infrastructure layers
 - ✅ **Repository Pattern** - Abstracts data access behind interfaces
 - ✅ **Dependency Injection** - Manual DI for clear dependency flow
 - ✅ **Factory Pattern** - Route and middleware factories
 
 ### Security
+
 - ✅ **JWT Authentication** - Secure token-based auth with refresh tokens
 - ✅ **Password Hashing** - bcrypt with configurable salt rounds
 - ✅ **RBAC** - Flexible role-based access control
@@ -374,17 +393,20 @@ This project demonstrates the following skills and best practices:
 - ✅ **Audit Trail** - Comprehensive logging of all actions
 
 ### Code Quality
+
 - ✅ **TypeScript** - Full type safety throughout
 - ✅ **Zod Validation** - Runtime schema validation
 - ✅ **Error Handling** - Centralized, consistent error responses
 - ✅ **Documentation** - Comprehensive README and code comments
 
 ### Database
+
 - ✅ **MongoDB** - Proper schema design with indexes
 - ✅ **Aggregation Pipelines** - Complex queries for analytics
 - ✅ **Reference Population** - Efficient data loading
 
 ### Production Readiness
+
 - ✅ **Environment Configuration** - Secure config management
 - ✅ **Graceful Shutdown** - Proper cleanup on termination
 - ✅ **Health Checks** - Monitoring endpoint
@@ -400,4 +422,4 @@ This project is open source and available for educational purposes. Feel free to
 
 ---
 
-*This is a portfolio project demonstrating backend engineering skills. It is not affiliated with any company or organization.*
+_This is a portfolio project demonstrating backend engineering skills. It is not affiliated with any company or organization._
